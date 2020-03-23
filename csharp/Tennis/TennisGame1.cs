@@ -4,8 +4,6 @@ namespace Tennis
     {
         private int m_score1 = 0;
         private int m_score2 = 0;
-        private string player1Name;
-        private string player2Name;
 
         public TennisGame1(string player1Name, string player2Name)
         {
@@ -23,26 +21,17 @@ namespace Tennis
         public string GetScore()
         {
             string score = "";
-            if (m_score1 == m_score2)
+            if (IsTie())
             {
-                switch (m_score1)
+                score = m_score1 switch
                 {
-                    case 0:
-                        score = "Love-All";
-                        break;
-                    case 1:
-                        score = "Fifteen-All";
-                        break;
-                    case 2:
-                        score = "Thirty-All";
-                        break;
-                    default:
-                        score = "Deuce";
-                        break;
-
-                }
+                    0 => "Love-All",
+                    1 => "Fifteen-All",
+                    2 => "Thirty-All",
+                    _ => "Deuce",
+                };
             }
-            else if (m_score1 >= 4 || m_score2 >= 4)
+            else if (PlayingInDeuce())
             {
                 var minusResult = m_score1 - m_score2;
                 if (minusResult == 1) score = "Advantage player1";
@@ -78,6 +67,16 @@ namespace Tennis
                 }
             }
             return score;
+        }
+
+        private bool PlayingInDeuce()
+        {
+            return m_score1 >= 4 || m_score2 >= 4;
+        }
+
+        private bool IsTie()
+        {
+            return m_score1 == m_score2;
         }
     }
 }
