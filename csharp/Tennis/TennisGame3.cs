@@ -4,19 +4,19 @@ namespace Tennis
     {
         private int p2;
         private int p1;
-        private string p1N;
-        private string p2N;
+        private readonly string p1N;
+        private readonly string p2N;
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            this.p1N = player1Name;
-            this.p2N = player2Name;
+            p1N = player1Name;
+            p2N = player2Name;
         }
 
         public string GetScore()
         {
             string s;
-            if ((p1 < 4 && p2 < 4) && (p1 + p2 < 6))
+            if (p1 < 4 && p2 < 4 && (p1 + p2 < 6))
             {
                 string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
                 s = p[p1];
@@ -34,9 +34,9 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                this.p1 += 1;
+                p1++;
             else
-                this.p2 += 1;
+                p2++;
         }
 
     }

@@ -9,22 +9,20 @@ namespace Tennis
 
         public TennisGame1(string player1Name, string player2Name)
         {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
+
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                m_score1 += 1;
+                m_score1++;
             else
-                m_score2 += 1;
+                m_score2++;
         }
 
         public string GetScore()
         {
             string score = "";
-            var tempScore = 0;
             if (m_score1 == m_score2)
             {
                 switch (m_score1)
@@ -56,7 +54,11 @@ namespace Tennis
             {
                 for (var i = 1; i < 3; i++)
                 {
-                    if (i == 1) tempScore = m_score1;
+                    int tempScore;
+                    if (i == 1)
+                    {
+                        tempScore = m_score1;
+                    }
                     else { score += "-"; tempScore = m_score2; }
                     switch (tempScore)
                     {
