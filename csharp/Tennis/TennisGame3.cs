@@ -1,43 +1,47 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
     {
-        private int p2;
-        private int p1;
-        private readonly string p1N;
-        private readonly string p2N;
+        private int player2Points;
+        private int player1Points;
+        private readonly string player1Name;
+        private readonly string player2Name;
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            p1N = player1Name;
-            p2N = player2Name;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
         }
 
         public string GetScore()
         {
-            string s;
-            if (p1 < 4 && p2 < 4 && (p1 + p2 < 6))
+
+            if (PlayingInDeuce())
             {
-                string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
-                s = p[p1];
-                return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
-            }
-            else
-            {
-                if (p1 == p2)
+                if (player1Points == player2Points)
                     return "Deuce";
-                s = p1 > p2 ? p1N : p2N;
-                return ((p1 - p2) * (p1 - p2) == 1) ? "Advantage " + s : "Win for " + s;
+                string currentWinner = CurrentGemWinner();
+                return IsAdvantage() ? "Advantage " + currentWinner : "Win for " + currentWinner;
+            }
+            else 
+            {
+                string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
+                return (player1Points == player2Points) ? points[player1Points] + "-All" : points[player1Points] + "-" + points[player2Points];
             }
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                p1++;
+                player1Points++;
             else
-                p2++;
+                player2Points++;
         }
+        private string CurrentGemWinner() => player1Points > player2Points ? player1Name : player2Name;
+        private bool IsAdvantage() => Math.Abs(player1Points - player2Points) == 1;
+        private bool PlayingInDeuce() => player1Points >= 4 || player2Points >= 4 || (player1Points + player2Points >= 6);
 
     }
 }
