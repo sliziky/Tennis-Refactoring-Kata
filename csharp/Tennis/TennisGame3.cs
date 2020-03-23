@@ -20,17 +20,17 @@ namespace Tennis
 
             if (PlayingInDeuce())
             {
-                if (player1Points == player2Points)
-                    return "Deuce";
-                string currentWinner = CurrentGemWinner();
-                return IsAdvantage() ? "Advantage " + currentWinner : "Win for " + currentWinner;
+                return IsTie()
+                    ? "Deuce"
+                    : AdvantageScoreInfo();
             }
             else 
             {
-                string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
-                return (player1Points == player2Points) ? points[player1Points] + "-All" : points[player1Points] + "-" + points[player2Points];
+                return IsTie() ? GetCurrentTieScore() : GetCurrentScore();
             }
         }
+
+        private bool IsTie() => player1Points == player2Points;
 
         public void WonPoint(string playerName)
         {
@@ -42,6 +42,14 @@ namespace Tennis
         private string CurrentGemWinner() => player1Points > player2Points ? player1Name : player2Name;
         private bool IsAdvantage() => Math.Abs(player1Points - player2Points) == 1;
         private bool PlayingInDeuce() => player1Points >= 4 || player2Points >= 4 || (player1Points + player2Points >= 6);
+        private string AdvantageScoreInfo() => IsAdvantage() ? "Advantage " + CurrentGemWinner() : "Win for " + CurrentGemWinner();
+        private string GetPoint(int score)
+        {
+            string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
+            return points[score];
+        }
+        private string GetCurrentTieScore() => GetPoint(player1Points) + "-All";
+        private string GetCurrentScore() => GetPoint(player1Points) + "-" + GetPoint(player2Points);
 
     }
 }
