@@ -5,10 +5,7 @@ namespace Tennis
         private int p1point;
         private int p2point;
 
-        private string p1res = "";
-        private string p2res = "";
-
-        private string[] points = {"Love", "Fifteen", "Thirty","Forty"};
+        private readonly string[] points = {"Love", "Fifteen", "Thirty","Forty"};
         public TennisGame2(string player1Name, string player2Name)
         {
             p1point = 0;
@@ -17,44 +14,50 @@ namespace Tennis
         public string GetScore()
         {
             var score = "";
-            if (IsTie() && p1point < 3)
+            if (IsTie())
             {
-                score = points[p1point] + "-All";
+                return IsDeuce() ? "Deuce" : points[p1point] + "-All";
             }
-            if (IsTie() && p1point > 2)
+            if (p1point < 4 && p2point < 4)
             {
-                score = "Deuce";
+                return points[p1point] + "-" + points[p2point];
             }
-            if ((p2point > 0 && p1point == 0 && p2point < 4)
-                || (p1point > 0 && p2point == 0 && p1point < 4))
+            if (Player1HasAdvantage() || Player2HasAdvantage())
             {
-                score = "Love -" + points[p2point];
+                score = "Advantage player";
+                score += Player1HasAdvantage() ? "1" : "2";
             }
-
-            if ((p1point > p2point && p1point < 4) 
-                || (p2point > p1point && p2point < 4))
+            if (Player1Won() || Player2Won())
             {
-                score = points[p1point] + "-" + points[p2point];
-            }
-            if (p1point > p2point && p2point >= 3)
-            {
-                score = "Advantage player1";
-            }
-
-            if (p2point > p1point && p1point >= 3)
-            {
-                score = "Advantage player2";
-            }
-
-            if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
-            {
-                score = "Win for player1";
-            }
-            if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
-            {
-                score = "Win for player2";
+                score = "Win for player";
+                score += Player1Won() ? "1" : "2";
             }
             return score;
+        }
+
+        private bool IsDeuce()
+        {
+            return IsTie() && p1point > 2;
+        }
+
+        private bool Player1HasAdvantage()
+        {
+            return p1point > p2point && p2point >= 3;
+        }
+
+        private bool Player2HasAdvantage()
+        {
+            return p2point > p1point && p1point >= 3;
+        }
+
+        private bool Player2Won()
+        {
+            return p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2;
+        }
+
+        private bool Player1Won()
+        {
+            return p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2;
         }
 
         private bool IsTie()
