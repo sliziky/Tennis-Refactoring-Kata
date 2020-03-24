@@ -28,17 +28,13 @@ namespace Tennis
             if ((p2point > 0 && p1point == 0 && p2point < 4)
                 || (p1point > 0 && p2point == 0 && p1point < 4))
             {
-                p2res = points[p2point];
-                p1res = "Love";
-                score = p1res + "-" + p2res;
+                score = "Love -" + points[p2point];
             }
 
             if ((p1point > p2point && p1point < 4) 
                 || (p2point > p1point && p2point < 4))
             {
-                p2res = points[p2point];
-                p1res = points[p1point];
-                score = p1res + "-" + p2res;
+                score = points[p1point] + "-" + points[p2point];
             }
             if (p1point > p2point && p2point >= 3)
             {
