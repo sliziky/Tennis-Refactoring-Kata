@@ -23,13 +23,8 @@ namespace Tennis
             string score = "";
             if (IsTie())
             {
-                score = m_score1 switch
-                {
-                    0 => "Love-All",
-                    1 => "Fifteen-All",
-                    2 => "Thirty-All",
-                    _ => "Deuce",
-                };
+                if (IsDeuce()) { return "Deuce"; }
+                return $"{points[m_score1]}-All";
             }
             else if (PlayingInDeuce())
             {
@@ -44,6 +39,11 @@ namespace Tennis
                 return $"{points[m_score1]}-{points[m_score2]}";
             }
             return score;
+        }
+
+        private bool IsDeuce()
+        {
+            return m_score1 >= 3 && m_score1 == m_score2;
         }
 
         private bool PlayingInDeuce()
