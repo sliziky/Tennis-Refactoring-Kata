@@ -4,8 +4,8 @@ namespace Tennis
 {
     class TennisGame1 : ITennisGame
     {
-        private int m_score1 = 0;
-        private int m_score2 = 0;
+        private int m_score1;
+        private int m_score2;
         private readonly string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
         public TennisGame1(string player1Name, string player2Name)
         {
@@ -22,7 +22,6 @@ namespace Tennis
 
         public string GetScore()
         {
-            string score;
             if (IsTie())
             {
                 if (IsDeuce()) { return "Deuce"; }
@@ -37,7 +36,6 @@ namespace Tennis
             {
                 return $"{points[m_score1]}-{points[m_score2]}";
             }
-            return score;
         }
 
         private string EvaluateResult(int minusResult)
